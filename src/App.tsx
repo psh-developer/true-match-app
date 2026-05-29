@@ -1,24 +1,25 @@
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { NetworkState } from "@/components/common/network"
+import { Toaster } from "@/components/ui/sonner"
+import { router } from "@/routes"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { RouterProvider } from "react-router"
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnWindowFocus: false,
+    },
+  },
+})
 
 function App() {
   return (
-    <Card className="max-w-sm">
-      <CardHeader>
-        <CardTitle>Project Overview</CardTitle>
-        <CardDescription>
-          Track progress and recent activity for your Vite app.
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        Your design system is ready. Start building your next component.
-      </CardContent>
-    </Card>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <Toaster closeButton richColors position="top-right" theme="light" />
+      <NetworkState />
+    </QueryClientProvider>
   )
 }
 
